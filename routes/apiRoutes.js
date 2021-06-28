@@ -25,6 +25,7 @@ module.exports = (app) => {
         res.json(noteLog);
     });
 
+    // Deletes selected note.
     app.delete('/api/notes/:id', (req, res) => {
         const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
         const delNote = req.params.id;
