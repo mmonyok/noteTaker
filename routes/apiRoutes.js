@@ -3,7 +3,7 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const noteLog = JSON.parse(fs.readFileSync('db/db.json'));
-let noteArray = [];
+// let noteArray = [];
 
 /* const noteLog = fs.readFile('../db/db.json', 'utf8', (err, notes) => {
     if (err) {
@@ -26,11 +26,12 @@ module.exports = (app) => {
     app.post('/api/notes', (req, res) => {
         const newNote = req.body;
         newNote.id = uuidv4();
-        console.log("What is newNote?");
+/*         console.log("What is newNote?");
         console.log(typeof noteLog);
         console.log(noteLog);
-        noteArray.push(newNote);
-        fs.writeFileSync('db/db.json', JSON.stringify(noteArray));
-        res.json(noteArray);
+        noteArray.push(newNote); */
+        noteLog.push(newNote);
+        fs.writeFileSync('db/db.json', JSON.stringify(noteLog));
+        res.json(noteLog);
     });
 };
