@@ -2,7 +2,7 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const noteLog = JSON.parse(fs.readFileSync('db/db.json'));
 let noteArray = [];
-//Why doesn't this work on line 3 and same file location for line 32? => => const noteLog = JSON.parse(fs.readFileSync('..db/db.json'));
+// Why doesn't this work on line 3 and same file location for line 32? => => const noteLog = JSON.parse(fs.readFileSync('..db/db.json'));
 
 /* const noteLog = fs.readFile('../db/db.json', 'utf8', (err, notes) => {
     if (err) {
