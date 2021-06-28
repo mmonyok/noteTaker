@@ -1,15 +1,5 @@
-// Why doesn't this work on line 3 and same file location for line 32? => => const noteLog = JSON.parse(fs.readFileSync('..db/db.json'));
-
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const noteLog = JSON.parse(fs.readFileSync('db/db.json'));
-
-/* const noteLog = JSON.parse(fs.readFile('db/db.json', 'utf8', (err, notes) => {
-    if (err) {
-        console.log("File read failed:", err);
-        return;
-    }
-})); */
 
 function remove(array, key, value) {
     const index = array.findIndex(obj => obj[key] === value);
@@ -20,10 +10,14 @@ function remove(array, key, value) {
 };
 
 module.exports = (app) => {
-    // Create new notes.
-    app.get('/api/notes', (req, res) => res.json(noteLog));
+    app.get('/api/notes', (req, res) => {
+        const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
+        res.json(noteLog)
+    });
 
+    // Create new notes.
     app.post('/api/notes', (req, res) => {
+        const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
         const newNote = req.body;
         newNote.id = uuidv4();
         noteLog.push(newNote);
@@ -31,8 +25,9 @@ module.exports = (app) => {
         res.json(noteLog);
     });
 
-    app.delete('/api/notes', (req, res) => {
-        const delNote = req.body.id;
+    app.delete('/api/notes/:id', (req, res) => {
+        const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
+        const delNote = req.params.id;
         const newLog = remove(noteLog, "id", delNote);
         fs.writeFileSync('db/db.json', JSON.stringify(newLog));
         res.json(newLog);
