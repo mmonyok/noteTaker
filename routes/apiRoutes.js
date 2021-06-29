@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
+// Finds the object within the array that matches the body id of the fetch and removes it then returns the array without that object.
 function remove(array, key, value) {
     const index = array.findIndex(obj => obj[key] === value);
     return index >= 0 ? [
@@ -10,12 +11,13 @@ function remove(array, key, value) {
 };
 
 module.exports = (app) => {
+    // Accesses the data in the api.
     app.get('/api/notes', (req, res) => {
         const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
         res.json(noteLog)
     });
 
-    // Create new notes.
+    // Posts new data to the api.
     app.post('/api/notes', (req, res) => {
         const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
         const newNote = req.body;
@@ -25,7 +27,7 @@ module.exports = (app) => {
         res.json(noteLog);
     });
 
-    // Deletes selected note.
+    // Deletes selected note in the api.
     app.delete('/api/notes/:id', (req, res) => {
         const noteLog = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
         const delNote = req.params.id;
